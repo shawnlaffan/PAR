@@ -62,6 +62,11 @@ sub _init_dynaloader {
 sub _dl_findfile {
     print STDERR "PAR::Heavy::_dl_findfile($cache_key)\n" if $dl_debug;
 
+    if ($cache_key =~ /^auto/ and -e "$ENV{PAR_TEMP}/inc/lib/$cache_key") {
+        print STDERR " found in inc dir as $ENV{PAR_TEMP}/inc/lib/$cache_key\n"
+            if $dl_debug;
+        return "$ENV{PAR_TEMP}/inc/lib/$cache_key";
+    }
     if (exists $FullCache{$cache_key}) {
         print STDERR " found in FullCache as $FullCache{$cache_key}\n"
             if $dl_debug;
